@@ -32,22 +32,23 @@ imprimirLinea([X|L]):- write(X), write(' '), imprimirLinea(L).
 anomenarElements([],_,_,_,_).
 anomenarElements([X|F1],E1,E2,E3,E4):- E1 = X, anomenarElements(F1,E2,E3,E4,E1).
 
-/* Funció per anomenar els elements de la matriu (faltaría hacer caso base???)*/
-comprobarValorCantons(X, X, X).
-comprobarValorCantons('-', _, _).
+/* Funció per comprovar si els valors del cantons son els correctes */
+comprovarValorCantons(X, X, X).
+comprovarValorCantons('-', _, _).
+
+/* Funció per comprovar si els valors dels laterals son els correctes*/
+comprovarValorLaterals(X, X).
+comprovarValorLaterals('-', _).
 
 
 /****************************************************************************************************************************************
-per mirar si un element és '-', ho posam directament dins una llista per fer la comparaci
-
-per mirar quin es el darrer element de la llista, la giram, i miram quin se queda com a nou 1r element
-
-2   3   4
-3   1   7
-
+PROGRAMA PRINCIPAL
 *****************************************************************************************************************************************/
 
+/* Funció lletres */
+
 lletres(M1,M2,M3,M4) :- reverse(M3,I3), reverse(M4,I4), 
+
 anomenarElements(M1,M11,M12,M13,M14), 
 anomenarElements(M2,M21,M22,M23,M24), 
 anomenarElements(I3,M31,M32,M33,M34), 
@@ -72,13 +73,55 @@ diferents(C2),
 diferents(C3),
 diferents(C4),
 
-comprobarValorCantons(C11, M11, M41),
-comprobarValorCantons(C14, M14, M21),
-comprobarValorCantons(C44, M24, M34),
-comprobarValorCantons(C41, M44, M31),
+comprovarValorCantons(C11, M11, M41),
+comprovarValorCantons(C14, M14, M21),
+comprovarValorCantons(C44, M24, M34),
+comprovarValorCantons(C41, M44, M31),
+
+comprovarValorLaterals(C12, M12),
+comprovarValorLaterals(C13, M13),
+comprovarValorLaterals(C24, M22),
+comprovarValorLaterals(C34, M23),
+comprovarValorLaterals(C43, M33),
+comprovarValorLaterals(C42, M32),
+comprovarValorLaterals(C21, M42),
+comprovarValorLaterals(C31, M43),
 
 write('   '), imprimirLinea(M1),write('\n'),
 imprimir(M2,I4,F1,F2,F3,F4), write('   '), imprimirLinea(I3).
+
+
+/* Funció comptar  (SI LLAMAS A LA FUNCION 2 VECES SE SUMAN LAS SOLUCIONES) */
+
+comptar :- asserta(comptador(0)), 
+
+permutacio(['a','b','c','-'],F1),
+anomenarElements(F1,C11,C12,C13,C14), 
+permutacio(['a','b','c','-'],F2),
+anomenarElements(F2,C21,C22,C23,C24),
+permutacio(['a','b','c','-'],F3), 
+anomenarElements(F3,C31,C32,C33,C34),
+permutacio(['a','b','c','-'],F4),
+anomenarElements(F4,C41,C42,C43,C44),
+
+C1 = [C11,C21,C31,C41], 
+C2 = [C12,C22,C32,C42],
+C3 = [C13,C23,C33,C43],
+C4 = [C14,C24,C34,C44], 
+
+diferents(C1),
+diferents(C2),
+diferents(C3),
+diferents(C4),
+
+comptador(X), X1 is X+1, 
+retract(comptador(X)), 
+asserta(comptador(X1)),
+fail.
+
+comptar :- nl, write('Hi ha '), comptador(X), write(X), write(' resultats.').
+
+
 
 
 
