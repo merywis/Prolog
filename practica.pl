@@ -33,8 +33,9 @@ anomenarElements([],_,_,_,_).
 anomenarElements([X|F1],E1,E2,E3,E4):- E1 = X, anomenarElements(F1,E2,E3,E4,E1).
 
 /* Funció per anomenar els elements de la matriu (faltaría hacer caso base???)*/
-valorCantons(C, M1, M2):- M1 == M2, !, C = M1.
-valorCantons(C, M1, M2):- C = '-'.
+comprobarValorCantons(X, X, X).
+comprobarValorCantons('-', _, _).
+
 
 /****************************************************************************************************************************************
 per mirar si un element és '-', ho posam directament dins una llista per fer la comparaci
@@ -61,15 +62,6 @@ anomenarElements(F3,C31,C32,C33,C34),
 permutacio(['a','b','c','-'],F4),
 anomenarElements(F4,C41,C42,C43,C44),
 
-valorCantons(C11, M11, M41),
-%write(M11),write(M41),write('\n'),
-valorCantons(C14, M14, M21),
-%write(M14),write(M21),write('\n'),
-valorCantons(C44, M24, M34),
-%write(M24),write(M34),write('\n'),
-valorCantons(C44, M31, M44),
-%write(M11),write(M41),write('\n'),
-
 C1 = [C11,C21,C31,C41], 
 C2 = [C12,C22,C32,C42],
 C3 = [C13,C23,C33,C43],
@@ -79,6 +71,11 @@ diferents(C1),
 diferents(C2),
 diferents(C3),
 diferents(C4),
+
+comprobarValorCantons(C11, M11, M41),
+comprobarValorCantons(C14, M14, M21),
+comprobarValorCantons(C44, M24, M34),
+comprobarValorCantons(C41, M44, M31),
 
 write('   '), imprimirLinea(M1),write('\n'),
 imprimir(M2,I4,F1,F2,F3,F4), write('   '), imprimirLinea(I3).
