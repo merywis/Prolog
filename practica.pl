@@ -91,7 +91,7 @@ write('   '), imprimirLinea(M1),write('\n'),
 imprimir(M2,I4,F1,F2,F3,F4), write('   '), imprimirLinea(I3).
 
 
-/* Funció comptar  (SI LLAMAS A LA FUNCION 2 VECES SE SUMAN LAS SOLUCIONES) */
+/* Funció comptar */
 
 comptar :- asserta(comptador(0)), 
 
@@ -119,7 +119,7 @@ retract(comptador(X)),
 asserta(comptador(X1)),
 fail.
 
-comptar :- nl, write('Hi ha '), comptador(X), write(X), write(' resultats.').
+comptar :- nl, write('Hi ha '), comptador(X), write(X), retract(comptador(X)), write(' resultats.').
 
 
 
