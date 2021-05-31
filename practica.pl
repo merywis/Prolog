@@ -36,19 +36,8 @@ comprovarValorCantons('-', _, _).
 comprovarValorLaterals(X, X).
 comprovarValorLaterals('-', _).
 
-
-/****************************************************************************************************************************************
-PROGRAMA PRINCIPAL
-*****************************************************************************************************************************************/
-
-/* Funció lletres */
-
-lletres(M1,M2,M3,M4) :- reverse(M3,I3), reverse(M4,I4), 
-
-M1 = [M11,M12,M13,M14],
-M2 = [M21,M22,M23,M24],
-I3 = [M31,M32,M33,M34],
-I4 = [M41,M42,M43,M44],
+/* Funció per crear les permutacions i comprovar si son diferents*/
+matriu(F1,F2,F3,F4,C11,C12,C13,C14,C24,C21,C24,C31,C34,C41,C42,C43,C44):-
 
 permutacio(['a','b','c','-'],F1),
 F1 = [C11,C12,C13,C14],
@@ -92,7 +81,23 @@ C4 = [C14,C24,C34,C44],
 diferents(C1),
 diferents(C2),
 diferents(C3),
-diferents(C4),
+diferents(C4).
+
+
+/****************************************************************************************************************************************
+PROGRAMA PRINCIPAL
+*****************************************************************************************************************************************/
+
+/* Funció lletres */
+
+lletres(M1,M2,M3,M4) :- reverse(M3,I3), reverse(M4,I4), 
+
+M1 = [M11,M12,M13,M14],
+M2 = [M21,M22,M23,M24],
+I3 = [M31,M32,M33,M34],
+I4 = [M41,M42,M43,M44],
+
+matriu(F1,F2,F3,F4,C11,C12,C13,C14,C24,C21,C24,C31,C34,C41,C42,C43,C44),
 
 comprovarValorCantons(C11, M11, M41),
 comprovarValorCantons(C14, M14, M21),
@@ -114,14 +119,16 @@ imprimir(M2,I4,F1,F2,F3,F4), write('   '), imprimirLinea(I3), fail.
 
 /* Funció comptar */
 
-comptar :- asserta(comptador(0)), lletres(_,_,_,_),
+comptar :- asserta(comptador(0)), 
+
+matriu(_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_),
 
 comptador(X), X1 is X+1, 
 retract(comptador(X)), 
 asserta(comptador(X1)),
 fail.
 
-comptar :- nl, write('Hi ha '), comptador(X), write(X), retract(comptador(X)), write(' resultats.').
+comptar :- nl, write('Hi ha '), comptador(X), write(X), retract(comptador(X)), write(' resultats.'), retract(comptador(X)).
 
 
 
