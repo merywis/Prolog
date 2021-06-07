@@ -32,11 +32,11 @@ imprimirLinea([X|L]):- write(X), write(' '), imprimirLinea(L).
 comprovarValorCantons(X, X, X).
 comprovarValorCantons('-', _, _).
 
-/* Funció per comprovar si els valors dels laterals són els correctes*/
+/* Funció per comprovar si els valors dels laterals són els correctes */
 comprovarValorLaterals(X, X).
 comprovarValorLaterals('-', _).
 
-/* Funció per crear les permutacions i comprovar si els elements de la matriu són diferents*/
+/* Funció per crear les permutacions i comprovar si els elements de la matriu són diferents */
 matriu(C11,C12,C13,C14,C21,C22,C23,C24,C31,C32,C33,C34,C41,C42,C43,C44):-
 
         permutacio(['a','b','c','-'],F1),
@@ -44,6 +44,9 @@ matriu(C11,C12,C13,C14,C21,C22,C23,C24,C31,C32,C33,C34,C41,C42,C43,C44):-
 
         permutacio(['a','b','c','-'],F2),
         F2 = [C21,C22,C23,C24],
+
+        /* Per fer-ho més òptim, quan ja hem creat les dues primeres files, comprovam si les columnes 
+        tenen aquests dos elements diferents, així, si això ja no es cumpleix, tornam a començar. */
 
         C1v1 = [C11,C21], 
         C2v1 = [C12,C22],
@@ -55,6 +58,8 @@ matriu(C11,C12,C13,C14,C21,C22,C23,C24,C31,C32,C33,C34,C41,C42,C43,C44):-
         diferents(C3v1),
         diferents(C4v1),
 
+        /* Si aquestes anteriors columnes han tengut els valors diferents, continuam afegint la tercera 
+        fila i tornam a comprovar si els elements de les columnes són diferents */
         permutacio(['a','b','c','-'],F3), 
         F3 = [C31,C32,C33,C34],
 
@@ -68,6 +73,7 @@ matriu(C11,C12,C13,C14,C21,C22,C23,C24,C31,C32,C33,C34,C41,C42,C43,C44):-
         diferents(C3v2),
         diferents(C4v2),
 
+        /* Si hem arribat aquí, cream la quarta i darrera fila i feim la darrera comprovació */ 
         permutacio(['a','b','c','-'],F4),
         F4 = [C41,C42,C43,C44],
 
@@ -95,6 +101,8 @@ M2 = [M21,M22,M23,M24],
 I3 = [M31,M32,M33,M34],
 I4 = [M41,M42,M43,M44],
 
+/*Funció que ens crea la matriu amb les lletres 'a', 'b' i 'c' fent que les tres estiguin,
+sense repetir i en qualsevol ordre, a totes les files i a totes les columnes */
 matriu(C11,C12,C13,C14,C21,C22,C23,C24,C31,C32,C33,C34,C41,C42,C43,C44),
 
 /* Comprovam que els valors dels 4 cantons siguin els correctes */
@@ -113,15 +121,18 @@ comprovarValorLaterals(C42, M32),
 comprovarValorLaterals(C21, M42),
 comprovarValorLaterals(C31, M43),
 
+/* Cream les files amb els elements que hi corresponen */
 F1 = [C11,C12,C13,C14],
 F2 = [C21,C22,C23,C24],
 F3 = [C31,C32,C33,C34],
 F4 = [C41,C42,C43,C44],
 
+/* Mostram el resultat per pantalla */
 write('   '), imprimirLinea(M1),write('\n'),
 imprimir(M2,I4,F1,F2,F3,F4), write('   '), imprimirLinea(I3), write('\n'), fail.
 
 
+/* ********************************************************************************************************************************************/
 /* Funció comptar */
 
 comptar :- asserta(comptador(0)), 
